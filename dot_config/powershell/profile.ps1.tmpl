@@ -1,0 +1,28 @@
+# Set environment variables
+{{ range $name, $value := .powershell.env -}}
+$env:{{ $name }} = {{ $value | quote }}
+{{ end }}
+
+{{- "\n" -}}
+
+# Append to PATH
+{{ range .powershell.path -}}
+$env:PATH += ";{{ . }}"
+{{ end }}
+
+{{- "\n" -}}
+
+# Include functions
+. "$PSScriptRoot\functions.ps1"
+
+# Create alias functions
+{{ range $alias, $expr := .powershell.aliases -}}
+function {{ $alias }} { {{ $expr }} @args }
+{{ end }}
+
+{{- "\n" -}}
+
+# Run commands
+{{ range .powershell.commands -}}
+{{ . }}
+{{ end }}

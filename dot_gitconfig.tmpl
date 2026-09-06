@@ -1,0 +1,33 @@
+[commit]
+	gpgSign = true
+[core]
+	autocrlf = true
+	excludesfile = ~/.gitignore
+	pager = delta
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+[delta]
+	features = calochortus-lyallii
+	line-numbers = true
+	navigate = true
+	side-by-side = true
+	true-color = always
+[diff]
+	colorMoved = default
+[gpg]
+	program = C:/Program Files/gnupg/bin/gpg.exe
+[interactive]
+	diffFilter = delta --color-only
+[merge]
+	conflictStyle = zdiff3
+[push]
+	autoSetupRemote = true
+	followTags = true
+[rerere]
+	enabled = 1
+[user]
+	name = {{ .name }}
+	email = {{ .vcsEmail }}
+	signingkey = {{ .vcsSigningKey }}
+
+[include]
+	path = "~/.local/share/delta/themes.gitconfig"

@@ -1,0 +1,4 @@
+{{ if eq .chezmoi.os "windows" -}}
+#!/usr/bin/env pwsh
+[Environment]::SetEnvironmentVariable("XDG_CONFIG_HOME", "$HOME\.config", [EnvironmentVariableTarget]::User)
+{{ end -}}

@@ -1,0 +1,10 @@
+winget:
+  packages:
+  - 7zip.7zip
+  - Espanso.Espanso
+  - GitHub.cli
+  - GnuPG.Gpg4win
+  - Microsoft.VCRedist.2015+.x64
+  - Python.PythonInstallManager
+  - ScooterSoftware.BeyondCompare.5
+  - jj-vcs.jj

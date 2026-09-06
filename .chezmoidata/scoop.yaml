@@ -1,0 +1,39 @@
+scoop:
+  apps:
+    main:
+    - ast-grep
+    - bat
+    - curl
+    - curlie
+    - delta
+    - doggo
+    - dust
+    - eza
+    - fd
+    - fzf
+    - gcc
+    - jid
+    - lazydocker
+    - less
+    - make
+    - neovim
+    - oh-my-posh
+    - procs
+    - ripgrep
+    - scc
+    - sudo
+    - syft
+    - tree-sitter
+    - unzip
+    - zip
+    - zoxide
+    extras:
+    - keystore-explorer
+    - lazygit
+    - meld
+    - vcredist2022
+    - winaero-tweaker
+    nerd-fonts:
+    - CommitMono-NF
+    - CommitMono-NF-Mono
+    - CommitMono-NF-Propo

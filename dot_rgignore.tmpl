@@ -1,0 +1,12 @@
+!.chezmoi*
+Downloads/
+OneDrive - */
+scoop/
+
+{{- if eq .profile "personal" }}
+Joystick Gremlin Ex/
+Obsidian/
+Saved Games/
+joystick gremlin/
+{{ else if eq .profile "work" }}
+{{ end }}

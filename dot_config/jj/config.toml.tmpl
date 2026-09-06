@@ -1,0 +1,57 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = {{ .name | quote }}
+email = {{ .vcsEmail | quote }}
+
+[ui]
+default-command = "log"
+diff-editor = "meld-3"
+diff-formatter = ":git"
+log-word-wrap = true
+merge-editor = "meld"
+pager = "delta"
+
+[git]
+private-commits = "description('wip:*')"
+
+[signing]
+behavior = "own"
+backend = "gpg"
+
+[working-copy]
+eol-conversion = "input-output"
+
+[template-aliases]
+'format_short_signature(signature)' = '''
+  if(
+    signature.email().domain() == "users.noreply.github.com",
+    hyperlink(
+      stringify(signature.email()).replace(regex:'^(?:\d+\+)?([^@]+)@.+$', 'https://github.com/$1'),
+      stringify(signature.email()).replace(regex:'^(?:\d+\+)?([^@]+)@.+$', '@$1')
+    ),
+    stringify(signature.email())
+  )
+'''
+
+'format_timestamp(timestamp)' = 'timestamp.format("%Y-%m-%d %H:%M")'
+
+[templates]
+git_push_bookmark = '"{{ .vcsUsername }}/push-" ++ change_id.short()'
+
+log = "builtin_log_comfortable"
+
+new_description = '''
+if(parents.len() > 1,
+  "Merge " ++ parents.skip(1).map(|p| if(
+    p.bookmarks(),
+    p.bookmarks().first().name(),
+    p.change_id().shortest(8)
+  )).join(", ") ++ " into " ++ if(
+    parents.first().bookmarks(),
+    parents.first().bookmarks().first().name(),
+    parents.first().change_id().shortest(8)
+  ) ++ "\n",
+  ""
+)
+'''

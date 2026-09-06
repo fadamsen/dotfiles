@@ -1,0 +1,60 @@
+powershell:
+  aliases:
+    bc: BComp.exe
+    cz: chezmoi
+    cza: cz apply
+    czcd: cd $(cz source-path)
+    czd: cz diff
+    cze: cz edit
+    czea: cze --apply
+    czew: cze --watch
+    czg: git -C $(cz source-path)
+    czgc: czg commit
+    czgd: czg diff
+    czgl1: czgl -1
+    czgl: czg log
+    czgs: czg status
+    czn: nvim $(cz source-path)
+    cznf: Edit-ChezmoiFile
+    czp: czg pull -- --autostash --rebase
+    czs: Save-Chezmoi
+    czu: cz update
+    czua: czu --apply
+    dc: docker compose
+    dcd: dc down
+    dcu: dc up
+    gia: git add
+    gic: git commit
+    gica: git commit --amend
+    gid: git diff
+    gids: git diff --staged
+    gil1: gil --max-count 1
+    gil: git log
+    gip: git push
+    girc: git rebase --continue
+    gis: git status
+    gradle: .\gradlew
+    x: exa --git --group-directories-first --header
+    xl: x --long
+    xlt: xl --tree
+    xt: x --tree
+  commands:
+  - $env:COMPLETE = 'powershell'; jj | Out-String | Invoke-Expression; Remove-Item Env:\\COMPLETE
+  - Set-PSReadLineKeyHandler -Chord 'Ctrl+R' -ScriptBlock { Run-Command '. $PROFILE' }
+  - Set-PSReadLineKeyHandler -Chord 'Ctrl+n' -Function NextHistory
+  - Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -Function PreviousHistory
+  - Set-PSReadLineOption -PredictionSource History -PredictionViewStyle ListView
+  - oh-my-posh init pwsh --config ~/.config/oh-my-posh/theme.omp.json | Invoke-Expression
+  - op completion powershell | Out-String | Invoke-Expression
+  # Must be last
+  - Invoke-Expression (& { (zoxide init powershell | Out-String) })
+  env:
+    EDITOR: nvim -f
+  modules:
+  - ps-color-scripts
+  path:
+  - "$env:LOCALAPPDATA\\Programs\\Beyond Compare 5"
+  - "$env:LOCALAPPDATA\\Python\\bin"
+  resources:
+  - Microsoft.PowerShell.SecretManagement
+  - Microsoft.PowerShell.SecretStore

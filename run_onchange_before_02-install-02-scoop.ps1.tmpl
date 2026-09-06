@@ -1,0 +1,37 @@
+{{ if eq .chezmoi.os "windows" }}
+#!/usr/bin/env pwsh
+if (-not (Get-Command -Name scoop -ErrorAction SilentlyContinue)) {
+  throw 'Scoop is not installed. Go to https://scoop.sh/ for instructions.'
+}
+
+$buckets = @(
+{{ range (keys .scoop.apps | sortAlpha) -}}
+  {{ . | quote | indent 2 }}
+{{ end -}}
+)
+
+$apps = @(
+{{ range $bucket, $apps := .scoop.apps -}}
+{{ range $apps -}}
+{{ $app := print $bucket "/" . -}}
+{{ $app | quote | indent 2 }}
+{{ end -}}
+{{ end -}}
+)
+
+$currentBuckets = @(scoop bucket list 6> $null | Select-Object -ExpandProperty Name)
+
+foreach ($bucket in $buckets) {
+  if (-not ($currentBuckets -contains $bucket)) {
+    scoop bucket add $bucket
+  }
+}
+
+$currentApps = @(scoop list 6> $null | ForEach-Object { $_.Source + '/' + $_.Name })
+
+foreach ($app in $apps) {
+  if (-not ($currentApps -contains $app)) {
+    scoop install $app
+  }
+}
+{{ end -}}

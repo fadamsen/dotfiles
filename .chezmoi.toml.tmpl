@@ -1,0 +1,30 @@
+{{- $profile := promptStringOnce . "profile" "Profile" -}}
+{{- $vcsEmail := promptStringOnce . "vcsEmail" "VCS email address" -}}
+{{- $vcsSigningKey := promptStringOnce . "vcsSigningKey" "VCS signing key" -}}
+{{- $vcsUsername := promptStringOnce . "vcsUsername" "VCS username" -}}
+
+[cd]
+    command = "pwsh"
+    args = ["-NoLogo"]
+
+[data]
+    initials = "fka"
+    name = "Filip Krane Adamsen"
+    profile = {{ $profile | quote }}
+    vcsEmail = {{ $vcsEmail | quote }}
+    vcsSigningKey = {{ $vcsSigningKey | quote }}
+    vcsUsername = {{ $vcsUsername | quote }}
+
+[diff]
+    pager = "delta"
+    args = [
+        "--line-numbers",
+        "--navigate",
+        "--side-by-side",
+        "--true-color",
+        "always"
+    ]
+
+[edit]
+    command = "nvim"
+    args = ["-f"]

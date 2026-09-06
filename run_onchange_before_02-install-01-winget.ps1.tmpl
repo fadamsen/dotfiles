@@ -1,0 +1,10 @@
+{{ if eq .chezmoi.os "windows" }}
+#!/usr/bin/env pwsh
+$packages = @(
+{{ range .winget.packages -}}
+  {{ . | quote | indent 2 }}
+{{ end -}}
+)
+
+winget install --no-upgrade --accept-package-agreements --accept-source-agreements --disable-interactivity --exact @packages
+{{ end -}}

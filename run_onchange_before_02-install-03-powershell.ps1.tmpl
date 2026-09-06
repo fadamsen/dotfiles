@@ -1,0 +1,12 @@
+{{ if eq .chezmoi.os "windows" -}}
+#!/usr/bin/env pwsh
+{{ range .powershell.modules -}}
+Install-Module -Name {{ . | quote }}
+{{ end -}}
+
+{{- "\n" -}}
+
+{{ range .powershell.resources -}}
+Install-PSResource -Name {{ . | quote }}
+{{ end -}}
+{{ end -}}
