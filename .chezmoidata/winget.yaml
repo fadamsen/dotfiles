@@ -2,8 +2,15 @@ winget:
   packages:
   - 7zip.7zip
   - Espanso.Espanso
+  - Git.Git
   - GitHub.cli
   - GnuPG.Gpg4win
+  - JetBrains.Toolbox
+  - KaiKramer.KeyStoreExplorer
+  - KeePassXCTeam.KeePassXC
+  - Microsoft.AzureCLI
+  - Microsoft.PowerShell
+  - Microsoft.PowerToys
   - Microsoft.VCRedist.2015+.x64
   - Python.PythonInstallManager
   - ScooterSoftware.BeyondCompare.5

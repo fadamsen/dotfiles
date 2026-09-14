@@ -22,7 +22,18 @@ function {{ $alias }} { {{ $expr }} @args }
 
 {{- "\n" -}}
 
-# Run commands
-{{ range .powershell.commands -}}
+{{ if .powershell.commands.noninteractive -}}
+# Run non-interactive commands always
+{{ range .powershell.commands.noninteractive -}}
 {{ . }}
-{{ end }}
+{{ end -}}
+}
+{{- "\n" -}}
+{{ end -}}
+
+# Run interactive commands if PSReadLine is available
+if (Get-Module PSReadLine) {
+{{ range .powershell.commands.interactive -}}
+{{ . | indent 2 }}
+{{ end -}}
+}

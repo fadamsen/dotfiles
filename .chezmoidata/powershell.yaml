@@ -34,20 +34,22 @@ powershell:
     girc: git rebase --continue
     gis: git status
     gradle: .\gradlew
+    sas: Switch-AzSubscription
     x: exa --git --group-directories-first --header
     xl: x --long
     xlt: xl --tree
     xt: x --tree
   commands:
-  - $env:COMPLETE = 'powershell'; jj | Out-String | Invoke-Expression; Remove-Item Env:\\COMPLETE
-  - Set-PSReadLineKeyHandler -Chord 'Ctrl+R' -ScriptBlock { Run-Command '. $PROFILE' }
-  - Set-PSReadLineKeyHandler -Chord 'Ctrl+n' -Function NextHistory
-  - Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -Function PreviousHistory
-  - Set-PSReadLineOption -PredictionSource History -PredictionViewStyle ListView
-  - oh-my-posh init pwsh --config ~/.config/oh-my-posh/theme.omp.json | Invoke-Expression
-  - op completion powershell | Out-String | Invoke-Expression
-  # Must be last
-  - Invoke-Expression (& { (zoxide init powershell | Out-String) })
+    noninteractive:
+    interactive:
+    - $env:COMPLETE = 'powershell'; jj | Out-String | Invoke-Expression; Remove-Item Env:\\COMPLETE
+    - Set-PSReadLineKeyHandler -Chord 'Ctrl+R' -ScriptBlock { Run-Command '. $PROFILE' }
+    - Set-PSReadLineKeyHandler -Chord 'Ctrl+n' -Function NextHistory
+    - Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -Function PreviousHistory
+    - Set-PSReadLineOption -PredictionSource History -PredictionViewStyle ListView
+    - oh-my-posh init pwsh --config ~/.config/oh-my-posh/theme.omp.json | Invoke-Expression
+    # Must be last
+    - Invoke-Expression (& { (zoxide init powershell | Out-String) })
   env:
     EDITOR: nvim -f
   modules:
@@ -58,3 +60,4 @@ powershell:
   resources:
   - Microsoft.PowerShell.SecretManagement
   - Microsoft.PowerShell.SecretStore
+  - PSFzf

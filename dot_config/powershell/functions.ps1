@@ -234,6 +234,21 @@ function Get-GpgKey {
   }
 }
 
+function Get-GpgSigningSubkeyId {
+  [CmdletBinding()]
+  [OutputType([string])]
+  param(
+    [Parameter(Mandatory)]
+    [string] $UserId
+  )
+
+  Get-GpgKey |
+    Where-Object UserId -like "*$UserId*" |
+    Select-Object -ExpandProperty Subkeys |
+    Where-Object KeyCapabilities -contains Sign |
+    Select-Object -ExpandProperty Id
+}
+
 function Export-GpgKey {
   [CmdletBinding()]
   [OutputType([string])]
@@ -452,6 +467,81 @@ function Test-GitRepositoryStatus {
   $status = @(git @gitParameters status --porcelain=v1) 2>$null
 
   $status.Count -eq 0
+}
+
+#endregion
+
+#region fzf
+
+function Select-FzfObject {
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory, ValueFromPipeline)]
+    [object] $InputObject,
+
+    [string[]] $Property = 'Name',
+
+    [switch] $Multi
+  )
+
+  begin {
+    $objects = [System.Collections.Generic.List[object]]::new()
+  }
+
+  process {
+    $objects.Add($InputObject)
+  }
+
+  end {
+    if ($objects.Count -eq 0) {
+      return
+    }
+
+    $lines = for ($i = 0; $i -lt $objects.Count; $i++) {
+      $displayValues = foreach ($propertyName in $Property) {
+        $value = $objects[$i].PSObject.Properties[$propertyName]?.Value
+
+        if ($null -eq $value) {
+          ''
+        } else {
+          "$value"
+        }
+      }
+
+      "$i`t$($displayValues -join "`t")"
+    }
+
+    $fzfArgs = @(
+      '--with-nth=2..'
+      '--delimiter'
+      "`t"
+      '--accept-nth=1'
+    )
+
+    if ($Multi) {
+      $fzfArgs += '--multi'
+    }
+
+    $selection = $lines | fzf @fzfArgs
+
+    if (-not $selection) {
+      return
+    }
+
+    foreach ($index in $selection) {
+      $objects[[int]$index]
+    }
+  }
+}
+
+function Switch-AzSubscription {
+  [CmdletBinding()]
+  param()
+
+  Get-AzSubscription |
+    Where-Object State -eq Enabled |
+    Select-FzfObject |
+    Set-AzContext
 }
 
 #endregion

@@ -1,12 +1,17 @@
 {{ if eq .chezmoi.os "windows" -}}
 #!/usr/bin/env pwsh
+{{ if .powershell.modules -}}
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 {{ range .powershell.modules -}}
 Install-Module -Name {{ . | quote }}
 {{ end -}}
-
 {{- "\n" -}}
+{{ end -}}
 
+{{ if .powershell.resources -}}
+Set-PSResourceRepository -Name PSGallery -Trusted
 {{ range .powershell.resources -}}
 Install-PSResource -Name {{ . | quote }}
+{{ end -}}
 {{ end -}}
 {{ end -}}

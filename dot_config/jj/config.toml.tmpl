@@ -6,11 +6,16 @@ email = {{ .vcsEmail | quote }}
 
 [ui]
 default-command = "log"
-diff-editor = "meld-3"
+diff-editor = "bcompare"
 diff-formatter = ":git"
 log-word-wrap = true
-merge-editor = "meld"
+merge-editor = "bcompare"
 pager = "delta"
+
+[merge-tools.bcompare]
+program = "BComp.exe"
+merge-tool-edits-conflict-markers = true
+trust-exit-code = true
 
 [git]
 private-commits = "description('wip:*')"
