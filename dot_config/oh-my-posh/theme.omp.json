@@ -37,7 +37,7 @@
           "style": "diamond"
         },
         {
-          "template": " fka ",
+          "template": " {{ default .Env.USERNAME .Env.OMP_USERNAME }} ",
           "foreground": "#4e4e4e",
           "powerline_symbol": "\ue0b0",
           "background": "#e4e4e4",
