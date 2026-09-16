@@ -8,6 +8,8 @@ winget:
   - JetBrains.Toolbox
   - KaiKramer.KeyStoreExplorer
   - KeePassXCTeam.KeePassXC
+  - LesFerch.WinSetView
+  - Microsoft.Azure.StorageExplorer
   - Microsoft.AzureCLI
   - Microsoft.PowerShell
   - Microsoft.PowerToys
