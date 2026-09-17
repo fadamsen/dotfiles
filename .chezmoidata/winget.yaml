@@ -9,6 +9,7 @@ winget:
   - KaiKramer.KeyStoreExplorer
   - KeePassXCTeam.KeePassXC
   - LesFerch.WinSetView
+  - Microsoft.Aspire
   - Microsoft.Azure.StorageExplorer
   - Microsoft.AzureCLI
   - Microsoft.PowerShell
