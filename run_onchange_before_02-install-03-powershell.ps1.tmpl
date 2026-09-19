@@ -3,7 +3,7 @@
 {{ if .powershell.modules -}}
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 {{ range .powershell.modules -}}
-Install-Module -Name {{ . | quote }}
+Install-Module -Repository PSGallery -Name {{ . | quote }}
 {{ end -}}
 {{- "\n" -}}
 {{ end -}}
@@ -11,7 +11,7 @@ Install-Module -Name {{ . | quote }}
 {{ if .powershell.resources -}}
 Set-PSResourceRepository -Name PSGallery -Trusted
 {{ range .powershell.resources -}}
-Install-PSResource -Name {{ . | quote }}
+Install-PSResource -Repository PSGallery -Name {{ . | quote }}
 {{ end -}}
 {{ end -}}
 {{ end -}}
