@@ -8,15 +8,13 @@ powershell:
     cze: cz edit
     czea: cze --apply
     czew: cze --watch
-    czg: git -C $(cz source-path)
-    czgc: czg commit
-    czgd: czg diff
-    czgl1: czgl -1
-    czgl: czg log
-    czgs: czg status
+    czj: jj --repository $(cz source-path)
+    czjc: czj commit
+    czjd: czj diff
+    czjl: czj log
+    czjs: czj status
     czn: nvim $(cz source-path)
     cznf: Edit-ChezmoiFile
-    czp: czg pull -- --autostash --rebase
     czs: Save-Chezmoi
     czu: cz update
     czua: czu --apply
