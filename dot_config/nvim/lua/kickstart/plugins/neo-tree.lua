@@ -23,6 +23,7 @@ return {
         hide_dotfiles = false,
         never_show = {
           '.git',
+          '.jj',
         },
       },
       window = {
