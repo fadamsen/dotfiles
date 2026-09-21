@@ -370,18 +370,27 @@ function Run-Command {
   [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
-function Save-Chezmoi {
+function Publish-Chezmoi {
   [CmdletBinding()]
   param()
 
   $dir = chezmoi source-path
 
-  jj --repository $dir status
+  jj --repository $dir diff --revision '@-'
 
-  if (Read-YesNo 'Save changes?') {
-    jj --repository $dir new
+  if (Read-YesNo 'Publish changes?') {
     Publish-JujutsuBookmark -Bookmark main -Revision '@-'
   }
+}
+
+function Update-Chezmoi {
+  [CmdletBinding()]
+  param()
+
+  $dir = chezmoi source-path
+
+  jj --repository $dir git fetch
+  jj --repository $dir rebase --onto main
 }
 
 #region Git functions
