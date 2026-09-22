@@ -19,11 +19,34 @@ winget install --no-upgrade --accept-package-agreements --accept-source-agreemen
   "--quiet --wait --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --add Microsoft.VisualStudio.Component.Windows11SDK.22621 --addProductLang En-us"
 
 # Set persistent environment variables
-$env:ESPANSO_CONFIG_DIR = "$HOME\.config\espanso"
-[Environment]::SetEnvironmentVariable('ESPANSO_CONFIG_DIR', $env:ESPANSO_CONFIG_DIR, 'User')
+& {
+  function Set-UserEnvironmentVariable($Name, $Value) {
+    Set-Item "Env:$Name" $Value
+    [Environment]::SetEnvironmentVariable($Name, $Value, 'User')
+  }
 
-$env:JJ_CONFIG = "$HOME\.config\jj\config.toml"
-[Environment]::SetEnvironmentVariable('JJ_CONFIG', $env:JJ_CONFIG, 'User')
+  Set-UserEnvironmentVariable 'ESPANSO_CONFIG_DIR' "$HOME\.config\espanso"
+  Set-UserEnvironmentVariable 'JJ_CONFIG' "$HOME\.config\jj\config.toml"
+
+  # Git for Windows 
+  $gitForWindowsDir = 
+    (Get-ItemProperty 'HKCU:\Software\GitForWindows' -ErrorAction SilentlyContinue).InstallPath ??
+    (Get-ItemProperty 'HKLM:\Software\GitForWindows' -ErrorAction SilentlyContinue).InstallPath
+
+  if (-not $gitForWindowsDir) {
+    throw 'Git for Windows is not installed.'
+  }
+
+  Set-UserEnvironmentVariable 'GIT_FOR_WINDOWS_DIR' $gitForWindowsDir
+
+  $entries = @($env:WSLENV -split ':' -ne '') |
+    Where-Object { $_ -notmatch '^GIT_FOR_WINDOWS_DIR(?:/|$)' }
+
+  $entries += 'GIT_FOR_WINDOWS_DIR/p'
+  $wslEnv = $entries -join ':'
+
+  Set-UserEnvironmentVariable 'WSLENV' $wslEnv
+}
 
 # Create junctions
 New-Item `

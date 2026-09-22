@@ -1,6 +1,6 @@
 # Install prerequisite packages
 sudo apt update
-sudo apt install unzip
+sudo apt install build-essential unzip
 
 # Install PowerShell
 sudo apt install wget apt-transport-https software-properties-common
