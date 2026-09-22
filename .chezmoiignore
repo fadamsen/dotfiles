@@ -1,2 +1,7 @@
 LICENSE
 README.md
+
+{{ if ne .chezmoi.os "windows" }}
+AppData
+dot_config/espanso
+{{ end }}

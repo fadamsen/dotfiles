@@ -4,7 +4,6 @@
 	autocrlf = input
 	excludesfile = ~/.gitignore
 	pager = delta
-	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 [delta]
 	features = calochortus-lyallii
 	line-numbers = true
@@ -13,8 +12,6 @@
 	true-color = always
 [diff]
 	colorMoved = default
-[gpg]
-	program = C:/Program Files/gnupg/bin/gpg.exe
 [interactive]
 	diffFilter = delta --color-only
 [merge]
@@ -31,3 +28,19 @@
 
 [include]
 	path = "~/.local/share/delta/themes.gitconfig"
+
+{{ if eq .chezmoi.os "linux" -}}
+# Linux-specific config
+{{ if contains "WSL" .chezmoi.kernel.osrelease -}}
+[credential]
+	helper = /mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe
+{{ end -}}
+{{ end -}}
+
+{{ if eq .chezmoi.os "windows" -}}
+# Windows-specific config
+[core]
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+[gpg]
+	program = C:/Program Files/gnupg/bin/gpg.exe
+{{ end -}}

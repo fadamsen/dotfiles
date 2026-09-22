@@ -5,9 +5,13 @@ $env:{{ $name }} = {{ $value | quote }}
 
 {{- "\n" -}}
 
+{{ $paths := index .powershell.path .chezmoi.os }}
+{{ if $paths -}}
 # Append to PATH
-{{ range .powershell.path -}}
-$env:PATH += ";{{ . }}"
+$pathSeparator = [System.IO.Path]::PathSeparator
+{{ range $paths -}}
+$env:PATH += "$pathSeparator{{ . }}"
+{{ end -}}
 {{ end }}
 
 {{- "\n" -}}
@@ -36,4 +40,13 @@ if (Get-Module PSReadLine) {
 {{ range .powershell.commands.interactive -}}
 {{ . | indent 2 }}
 {{ end -}}
+}
+
+# Fix missing GPG_TTY environment variable on Linux.
+if ($IsLinux) {
+    $tty = tty 2>$null
+
+    if ($LASTEXITCODE -eq 0) {
+        $env:GPG_TTY = $tty
+    }
 }

@@ -1,0 +1,9 @@
+cargo:
+  crates:
+  - bat
+  - cargo-update
+  - fd-find
+  - git-delta
+  - jj-cli
+  - ripgrep
+  - zoxide

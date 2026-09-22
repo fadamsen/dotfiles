@@ -1,0 +1,16 @@
+{{ if eq .chezmoi.os "linux" }}
+#!/usr/bin/env pwsh
+if (-not (Get-Command -Name snap -ErrorAction SilentlyContinue)) {
+  throw 'Snap is not installed. Go to https://snapcraft.io/ for instructions.'
+}
+
+$packages = @(
+{{ range .snap.packages -}}
+  {{ . | quote | indent 2 }}
+{{ end -}}
+)
+
+foreach ($package in $packages) {
+  sudo snap install $package --classic
+}
+{{ end -}}

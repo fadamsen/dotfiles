@@ -1,0 +1,5 @@
+apt:
+  packages:
+  - fzf
+  - gh
+  - neovim

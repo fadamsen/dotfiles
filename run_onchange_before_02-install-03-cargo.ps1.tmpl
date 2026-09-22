@@ -1,0 +1,14 @@
+{{ if eq .chezmoi.os "linux" }}
+#!/usr/bin/env pwsh
+if (-not (Get-Command -Name cargo -ErrorAction SilentlyContinue)) {
+  throw 'Rust is not installed. Go to https://rust-lang.org/tools/install/ for instructions.'
+}
+
+$crates = @(
+{{ range .cargo.crates -}}
+  {{ . | quote | indent 2 }}
+{{ end -}}
+)
+
+cargo binstall @crates
+{{ end -}}

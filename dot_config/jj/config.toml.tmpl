@@ -6,16 +6,20 @@ email = {{ .vcsEmail | quote }}
 
 [ui]
 default-command = "log"
-diff-editor = "bcompare"
 diff-formatter = ":git"
 log-word-wrap = true
-merge-editor = "bcompare"
 pager = "delta"
+
+{{ if eq .chezmoi.os "windows" -}}
+diff-editor = "bcompare"
+merge-editor = "bcompare"
 
 [merge-tools.bcompare]
 program = "BComp.exe"
 merge-tool-edits-conflict-markers = true
 trust-exit-code = true
+
+{{ end -}}
 
 [git]
 private-commits = "description('wip:*')"

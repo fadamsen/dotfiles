@@ -16,7 +16,7 @@ powershell:
     czn: nvim $(cz source-path)
     cznf: Edit-ChezmoiFile
     czs: Save-Chezmoi
-    czu: cz update
+    czu: Update-Chezmoi
     czua: czu --apply
     dc: docker compose
     dcd: dc down
@@ -40,8 +40,9 @@ powershell:
   commands:
     noninteractive:
     interactive:
-    - $env:COMPLETE = 'powershell'; jj | Out-String | Invoke-Expression; Remove-Item Env:\\COMPLETE
-    - Set-PSReadLineKeyHandler -Chord 'Ctrl+R' -ScriptBlock { Run-Command '. $PROFILE' }
+    - $env:COMPLETE = 'powershell'; jj | Out-String | Invoke-Expression; Remove-Item Env:\COMPLETE
+    - Set-PSReadLineKeyHandler -Chord 'Alt+R' -ScriptBlock { Run-Command '. $PROFILE' }
+    - Set-PSReadLineKeyHandler -Chord 'Ctrl+D2' -Function MenuComplete
     - Set-PSReadLineKeyHandler -Chord 'Ctrl+n' -Function NextHistory
     - Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -Function PreviousHistory
     - Set-PSReadLineOption -PredictionSource History -PredictionViewStyle ListView
@@ -53,8 +54,11 @@ powershell:
   modules:
   - ps-color-scripts
   path:
-  - "$env:LOCALAPPDATA\\Programs\\Beyond Compare 5"
-  - "$env:LOCALAPPDATA\\Python\\bin"
+    linux:
+    - ~/.local/bin
+    windows:
+    - "$env:LOCALAPPDATA\\Programs\\Beyond Compare 5"
+    - "$env:LOCALAPPDATA\\Python\\bin"
   resources:
   - Microsoft.PowerShell.SecretManagement
   - Microsoft.PowerShell.SecretStore
