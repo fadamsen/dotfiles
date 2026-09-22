@@ -391,7 +391,6 @@ function Update-Chezmoi {
 
   jj --repository $dir git fetch
   jj --repository $dir rebase --onto main
-  chezmoi update
 }
 
 #region Git functions
