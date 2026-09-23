@@ -1,0 +1,11 @@
+{{ if and .vcsSignCommits (eq .chezmoi.os "linux") (contains "WSL" .chezmoi.kernel.osrelease) }}
+$gpgPath = pwsh.exe -NoProfile -Command {
+  (Get-Command -Name gpg.exe -CommandType Application).Source
+}
+
+if (-not $gpgPath) {
+  throw 'GnuPG was not found on Windows.'
+}
+
+sudo ln -sfn (wslpath $gpgPath) /usr/local/bin/gpg
+{{ end }}

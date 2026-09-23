@@ -1,19 +1,19 @@
-{{- $profile := promptStringOnce . "profile" "Profile" -}}
+{{- $name := promptStringOnce . "name" "Full name" -}}
+{{- $profile := promptChoiceOnce . "profile" "Profile" (list "personal" "work") -}}
 {{- $vcsEmail := promptStringOnce . "vcsEmail" "VCS email address" -}}
-{{- $vcsSigningKey := promptStringOnce . "vcsSigningKey" "VCS signing key" -}}
 {{- $vcsUsername := promptStringOnce . "vcsUsername" "VCS username" -}}
+{{- $vcsSignCommits := promptBoolOnce . "vcsSignCommits" "Sign VCS commits" -}}
 
 [cd]
     command = "pwsh"
     args = ["-NoLogo"]
 
 [data]
-    initials = "fka"
-    name = "Filip Krane Adamsen"
+    name = {{ $name | quote }}
     profile = {{ $profile | quote }}
     vcsEmail = {{ $vcsEmail | quote }}
-    vcsSigningKey = {{ $vcsSigningKey | quote }}
     vcsUsername = {{ $vcsUsername | quote }}
+    vcsSignCommits = {{ $vcsSignCommits }}
 
 [diff]
     pager = "delta"

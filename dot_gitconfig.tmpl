@@ -1,5 +1,3 @@
-[commit]
-	gpgSign = true
 [core]
 	autocrlf = input
 	excludesfile = ~/.gitignore
@@ -24,7 +22,6 @@
 [user]
 	name = {{ .name }}
 	email = {{ .vcsEmail }}
-	signingkey = {{ .vcsSigningKey }}
 
 [include]
 	path = "~/.local/share/delta/themes.gitconfig"
@@ -41,6 +38,4 @@
 # Windows-specific config
 [core]
 	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-[gpg]
-	program = C:/Program Files/gnupg/bin/gpg.exe
 {{ end -}}

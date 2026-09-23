@@ -24,9 +24,12 @@ trust-exit-code = true
 [git]
 private-commits = "description('wip:*')"
 
+{{ if .vcsSignCommits -}}
 [signing]
 behavior = "own"
 backend = "gpg"
+
+{{ end -}}
 
 [working-copy]
 eol-conversion = "input"
