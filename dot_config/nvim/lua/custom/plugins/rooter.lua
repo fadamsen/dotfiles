@@ -7,6 +7,7 @@ return {
     project_non_root = 'current',
     root_patterns = {
       '.git/',
+      '.jj/',
       '.nvimroot',
     },
   },
