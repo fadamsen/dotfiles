@@ -1,20 +1,16 @@
 ---@module 'lazy'
 ---@type LazySpec
 return {
-  'NeogitOrg/neogit',
-  cmd = 'Neogit',
+  'NicholasZolton/neojj',
+  version = '^1.0.0',
   lazy = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'dlyongemallo/diffview.nvim', -- optional
-    'm00qek/baleia.nvim', -- optional
     'nvim-telescope/telescope.nvim', -- optional
   },
+  cmd = 'Neojj',
   keys = {
-    { '<leader>vg', '<cmd>Neogit<cr>', desc = 'Show Neogit UI' },
-  },
-  opts = {
-    graph_style = 'unicode',
-    sort_branches = 'topo',
+    { '<leader>vj', '<cmd>Neojj<cr>', desc = 'Show Neojj UI' },
   },
 }

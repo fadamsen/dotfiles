@@ -391,10 +391,10 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>g', group = '[G]it', mode = { 'n' } },
         { '<leader>p', group = '[P]roject', mode = { 'n' } },
         { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
         { '<leader>t', group = '[T]oggle' },
+        { '<leader>v', group = '[V]ersion control', mode = { 'n' } },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
         { 'gr', group = 'LSP Actions', mode = { 'n' } },
       },
@@ -919,6 +919,25 @@ require('lazy').setup({
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
 
+      -- Icon provider
+      require('mini.icons').setup()
+      MiniIcons.mock_nvim_web_devicons()
+
+      -- Navigate and manipulate file system
+      require('mini.files').setup {
+        content = {
+          filter = function(fs_entry) return fs_entry.name ~= '.git' and fs_entry.name ~= '.jj' end,
+        },
+      }
+
+      do
+        local minifiles_toggle = function(...)
+          if MiniFiles.close() == nil then MiniFiles.open(...) end
+        end
+
+        vim.keymap.set('n', '<Bslash>', function() minifiles_toggle(vim.api.nvim_buf_get_name(0)) end)
+      end
+
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
@@ -990,7 +1009,6 @@ require('lazy').setup({
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommended keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`

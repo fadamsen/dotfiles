@@ -5,16 +5,15 @@ powershell:
     cza: cz apply
     czcd: cd $(cz source-path)
     czd: cz diff
-    cze: cz edit
+    cze: nvim --cmd "cd $(cz source-path)"
     czea: cze --apply
     czew: cze --watch
+    czf: Edit-ChezmoiFile
     czj: jj --repository $(cz source-path)
     czjc: czj commit
     czjd: czj diff
     czjl: czj log
     czjs: czj status
-    czn: nvim $(cz source-path)
-    cznf: Edit-ChezmoiFile
     czs: Save-Chezmoi
     czu: Update-Chezmoi
     czua: czu --apply
@@ -52,7 +51,6 @@ powershell:
   env:
     EDITOR: nvim -f
   modules:
-  - ps-color-scripts
   path:
     linux:
     - ~/.local/bin
