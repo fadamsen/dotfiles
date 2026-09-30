@@ -35,6 +35,10 @@ backend = "gpg"
 [working-copy]
 eol-conversion = "input"
 
+[aliases]
+incoming = ["log", "-r", "@..trunk()"]
+outgoing = ["log", "-r", "trunk()..@"]
+
 [template-aliases]
 'format_short_signature(signature)' = '''
   if(
