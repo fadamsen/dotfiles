@@ -54,7 +54,7 @@ outgoing = ["log", "-r", "trunk()..@"]
 'format_timestamp(timestamp)' = 'timestamp.format("%Y-%m-%d %H:%M")'
 
 [templates]
-git_push_bookmark = '"{{ .vcsUsername }}/push-" ++ change_id.short()'
+git_push_bookmark = '"users/{{ .vcsUsername }}/push-" ++ change_id.short()'
 
 log = "builtin_log_comfortable"
 
