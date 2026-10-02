@@ -17,6 +17,8 @@ merge-editor = "bcompare"
 
 [merge-tools.bcompare]
 program = "BComp.exe"
+edit-args = ["$left", "$right", "/leftreadonly", "/expandall"]
+merge-args = ["$left", "$right", "$base", "$output", "/automerge", "/reviewconflicts"]
 merge-tool-edits-conflict-markers = true
 trust-exit-code = true
 
