@@ -6,15 +6,14 @@ email = {{ .vcsEmail | quote }}
 
 [ui]
 default-command = "log"
+diff-editor :builtin
 diff-formatter = ":git"
 log-word-wrap = true
+merge-editor :builtin
 pager = "delta"
 show-cryptographic-signatures = true
 
 {{ if eq .chezmoi.os "windows" -}}
-diff-editor = "bcompare"
-merge-editor = "bcompare"
-
 [merge-tools.bcompare]
 program = "BComp.exe"
 edit-args = ["$left", "$right", "/leftreadonly", "/expandall"]
