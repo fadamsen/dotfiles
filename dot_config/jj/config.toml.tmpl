@@ -41,6 +41,15 @@ eol-conversion = "input"
 incoming = ["log", "-r", "@..trunk()"]
 outgoing = ["log", "-r", "trunk()..@"]
 
+[revset-aliases]
+# Closest revision that is mutable, described and either non-empty or a merge
+'closest_pushable(to)' = '''
+  heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))
+'''
+
+[revsets]
+bookmark-advance-to = 'closest_pushable(@)'
+
 [template-aliases]
 'format_short_signature(signature)' = '''
   if(
