@@ -3,33 +3,18 @@ powershell:
     bc: BComp.exe
     cz: chezmoi
     cza: cz apply
-    czcd: cd $(cz source-path)
+    czc: cd $(cz source-path)
     czd: cz diff
     cze: nvim --cmd "cd $(cz source-path)"
     czea: cze --apply
     czew: cze --watch
     czf: Edit-ChezmoiFile
-    czj: jj --repository $(cz source-path)
-    czjc: czj commit
-    czjd: czj diff
-    czjl: czj log
-    czjs: czj status
     czs: Save-Chezmoi
     czu: Update-Chezmoi
     czua: czu --apply
     dc: docker compose
     dcd: dc down
     dcu: dc up
-    gia: git add
-    gic: git commit
-    gica: git commit --amend
-    gid: git diff
-    gids: git diff --staged
-    gil1: gil --max-count 1
-    gil: git log
-    gip: git push
-    girc: git rebase --continue
-    gis: git status
     gradle: .\gradlew
     sas: Switch-AzSubscription
     x: exa --git --group-directories-first --header
