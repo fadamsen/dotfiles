@@ -1,10 +1,32 @@
+{{- if or .powershell.modules .powershell.resources -}}
 #!/usr/bin/env pwsh
 {{ if .powershell.modules -}}
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+$modules = @(
 {{ range .powershell.modules -}}
-Install-Module -Repository PSGallery -Name {{ . | quote }}
+  {{ . | quote | indent 2 }}
 {{ end -}}
-{{- "\n" -}}
+)
+{{- "\n\n" -}}
+{{ end -}}
+
+{{ if .powershell.resources -}}
+$resources = @(
+{{ range .powershell.resources -}}
+  {{ . | quote | indent 2 }}
+{{ end -}}
+)
+{{- "\n\n" -}}
+{{ end -}}
+
+{{ if .powershell.modules -}}
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
+foreach ($module in $modules) {
+  if (-not (Get-Module -Name $module -ListAvailable -ErrorAction Ignore)) {
+    Install-Module -Repository PSGallery -Name $module -Force -ErrorAction Stop
+  }
+}
+{{- "\n\n" -}}
 {{ end -}}
 
 {{ if .powershell.resources -}}
@@ -12,7 +34,11 @@ Install-Module -Repository PSGallery -Name {{ . | quote }}
 Get-PSResourceRepository | Out-Null
 
 Set-PSResourceRepository -Name PSGallery -Trusted
-{{ range .powershell.resources -}}
-Install-PSResource -Repository PSGallery -Name {{ . | quote }}
+
+foreach ($resources in $resources) {
+  if (-not (Get-InstalledPSResource -Name $module -ErrorAction Ignore)) {
+    Install-PSResource -Repository PSGallery -Name $resource -Force -ErrorAction Stop
+  }
+}
 {{ end -}}
-{{ end -}}
+{{- end -}}

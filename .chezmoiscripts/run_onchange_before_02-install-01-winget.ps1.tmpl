@@ -6,5 +6,13 @@ $packages = @(
 {{ end -}}
 )
 
-winget install --no-upgrade --accept-package-agreements --accept-source-agreements --disable-interactivity --exact @packages
+if (-not (Get-Module -Name Microsoft.WinGet.Client -ListAvailable)) {
+  Install-PSResource -Repository PSGallery -Name Microsoft.WinGet.Client -Force -ErrorAction Stop
+}
+
+foreach ($package in $packages) {
+  if (-not (Get-WinGetPackage -Id $package)) {
+    winget install --no-upgrade --accept-package-agreements --accept-source-agreements --disable-interactivity --exact $package
+  }
+}
 {{ end -}}
