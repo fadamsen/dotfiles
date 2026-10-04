@@ -12,6 +12,7 @@ winget:
   - Microsoft.Aspire
   - Microsoft.Azure.StorageExplorer
   - Microsoft.AzureCLI
+  - Microsoft.Edit
   - Microsoft.PowerShell
   - Microsoft.PowerToys
   - Microsoft.VCRedist.2015+.x64
