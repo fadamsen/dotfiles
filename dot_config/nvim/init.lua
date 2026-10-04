@@ -930,13 +930,12 @@ require('lazy').setup({
         },
       }
 
-      do
-        local minifiles_toggle = function(...)
-          if MiniFiles.close() == nil then MiniFiles.open(...) end
+      vim.keymap.set('n', '<Bslash>', function()
+        if MiniFiles.close() == nil then
+          MiniFiles.open(vim.api.nvim_buf_get_name(0))
+          MiniFiles.reveal_cwd()
         end
-
-        vim.keymap.set('n', '<Bslash>', function() minifiles_toggle(vim.api.nvim_buf_get_name(0)) end)
-      end
+      end)
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
