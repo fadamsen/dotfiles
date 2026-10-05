@@ -7,7 +7,7 @@ $packages = @(
 )
 
 if (-not (Get-Module -Name Microsoft.WinGet.Client -ListAvailable)) {
-  Install-PSResource -Repository PSGallery -Name Microsoft.WinGet.Client -Force -ErrorAction Stop
+  Install-PSResource -Repository PSGallery -Name Microsoft.WinGet.Client -ErrorAction Stop
 }
 
 foreach ($package in $packages) {
