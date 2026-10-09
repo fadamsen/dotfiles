@@ -45,4 +45,5 @@ powershell:
   resources:
   - Microsoft.PowerShell.SecretManagement
   - Microsoft.PowerShell.SecretStore
+  - NerdFonts
   - PSFzf
