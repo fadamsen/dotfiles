@@ -25,10 +25,11 @@ trust-exit-code = true
 
 [git]
 private-commits = "description('wip:*')"
+sign-on-push = true
 
 {{ if .vcsSignCommits -}}
 [signing]
-behavior = "own"
+behavior = "drop"
 backend = "gpg"
 
 {{ end -}}
