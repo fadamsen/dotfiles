@@ -554,3 +554,123 @@ function Switch-AzSubscription {
 }
 
 #endregion
+
+#region Windows
+
+function Set-ClipboardHtml {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory, ValueFromPipeline)]
+        [object] $InputObject
+    )
+
+    begin {
+        $items = [System.Collections.Generic.List[object]]::new()
+    }
+
+    process {
+        $items.Add($InputObject)
+    }
+
+    end {
+        if ($items.Count -eq 0) {
+            return
+        }
+
+        # Convert the pipeline objects to an HTML table.
+        $fragment = $items |
+            ConvertTo-Html -Fragment |
+            Out-String
+
+        # CF_HTML expects an HTML document containing fragment markers.
+        $document = @"
+<html>
+<body>
+<!--StartFragment-->$fragment<!--EndFragment-->
+</body>
+</html>
+"@
+
+        # CF_HTML offsets are byte offsets, so calculate them using UTF-8.
+        $encoding = [System.Text.Encoding]::UTF8
+
+        # Use fixed-width decimal offsets so the header itself has a stable length.
+        $headerTemplate = @"
+Version:0.9
+StartHTML:{0:D10}
+EndHTML:{1:D10}
+StartFragment:{2:D10}
+EndFragment:{3:D10}
+"@
+
+        # Calculate the header length using zero placeholders first.
+        $emptyHeader = $headerTemplate -f 0, 0, 0, 0
+        $startHtml = $encoding.GetByteCount($emptyHeader)
+
+        $startFragmentMarker = '<!--StartFragment-->'
+        $endFragmentMarker = '<!--EndFragment-->'
+
+        $fragmentMarkerIndex = $document.IndexOf(
+            $startFragmentMarker,
+            [System.StringComparison]::Ordinal
+        )
+
+        $fragmentStartIndex =
+            $fragmentMarkerIndex + $startFragmentMarker.Length
+
+        $fragmentEndIndex = $document.IndexOf(
+            $endFragmentMarker,
+            $fragmentStartIndex,
+            [System.StringComparison]::Ordinal
+        )
+
+        $startFragment =
+            $startHtml +
+            $encoding.GetByteCount($document, 0, $fragmentStartIndex)
+
+        $endFragment =
+            $startHtml +
+            $encoding.GetByteCount($document, 0, $fragmentEndIndex)
+
+        $endHtml =
+            $startHtml +
+            $encoding.GetByteCount($document)
+
+        $header = $headerTemplate -f `
+            $startHtml,
+            $endHtml,
+            $startFragment,
+            $endFragment
+
+        $clipboardHtml = $header + $document
+
+        # System.Windows.Forms is Windows-only, which is fine since
+        # we're putting CF_HTML onto the Windows clipboard.
+        Add-Type -AssemblyName System.Windows.Forms
+
+        $data = [System.Windows.Forms.DataObject]::new()
+
+        $data.SetData(
+            [System.Windows.Forms.DataFormats]::Html,
+            $clipboardHtml
+        )
+
+        # Also provide a plain-text representation for applications
+        # that don't understand HTML clipboard data.
+        $plainText = $items |
+            Format-Table -AutoSize |
+            Out-String
+
+        $data.SetData(
+            [System.Windows.Forms.DataFormats]::UnicodeText,
+            $plainText
+        )
+
+        [System.Windows.Forms.Clipboard]::SetDataObject(
+            $data,
+            $true
+        )
+    }
+}
+
+#endregion
