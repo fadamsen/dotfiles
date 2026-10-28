@@ -480,6 +480,29 @@ function Test-GitRepositoryStatus {
 
 #endregion
 
+#region Browser
+
+function Start-Browser {
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
+        )]
+        [Alias('Uri', 'Url')]
+        [uri[]] $InputObject
+    )
+
+    process {
+        foreach ($uri in $InputObject) {
+            Start-Process -FilePath $uri.AbsoluteUri
+        }
+    }
+}
+
+#endregion
+
 #region fzf
 
 function Select-FzfObject {
