@@ -15,9 +15,11 @@ scoop:
     - jid
     - lazydocker
     - less
+    - libvips
     - make
     - neovim
     - oh-my-posh
+    - oxipng
     - procs
     - ripgrep
     - scc
